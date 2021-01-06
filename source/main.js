@@ -1,5 +1,7 @@
 function draw()
 {
+	screen.orientation.lock("landscape-primary");
+
 	var canvas = document.getElementById("canvas");
 
 	canvas.width = window.innerWidth;
