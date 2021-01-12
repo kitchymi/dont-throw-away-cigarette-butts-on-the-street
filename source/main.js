@@ -7,7 +7,6 @@ function draw()
 
 	document.getElementById("btnHello").onclick = function()
 	{
-		document.getElementById("show").innerText = "안녕하신가";
 		screen.orientation.lock("landscape-primary");
 		var elem = document.getElementById("canvas");
 		requestFullScreen(elem);
@@ -57,6 +56,7 @@ function onFullscreen()
 
 function onOrientationChange()
 {
+	document.getElementById("show").innerText = "방향이 바뀌었다고?";
 	var canvas = document.getElementById("canvas");
 
 	canvas.width = window.innerWidth;
