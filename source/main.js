@@ -7,7 +7,7 @@ function draw()
 	document.addEventListener("mozfullscreenchange", onFullscreen);
 	document.addEventListener("MSFullscreenChange", onFullscreen);
 
-	// window.addEventListener("deviceorientation", onOrientationChange, true);
+	window.addEventListener("deviceorientation", onOrientationChange, true);
 
 	document.getElementById("btnHello").onclick = function()
 	{
