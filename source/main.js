@@ -7,7 +7,7 @@ function draw()
 	document.addEventListener("mozfullscreenchange", onFullscreen);
 	document.addEventListener("MSFullscreenChange", onFullscreen);
 
-	window.addEventListener("deviceorientation", onOrientationChange, true);
+	// window.addEventListener("deviceorientation", onOrientationChange, true);
 
 	document.getElementById("btnHello").onclick = function()
 	{
@@ -60,6 +60,7 @@ function onFullscreen()
 
 function onOrientationChange(event)
 {
+	count++;
 	document.getElementById("show").innerText = "방향이 바뀌었다고? " + count;
 	var canvas = document.getElementById("canvas");
 
