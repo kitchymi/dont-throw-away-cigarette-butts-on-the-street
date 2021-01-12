@@ -20,4 +20,30 @@ function draw()
 		ctx.fillStyle = "rgba(0, 0, 200, 0.5)";
 		ctx.fillRect (30, 30, 50, 50);
 	}
+
+	document.getElementById("btnHello").onclick = function()
+	{
+		document.getElementById("show").innerText = "안녕하신가";
+		var elem = document.body;
+		requestFullScreen(elem);
+	}
+}
+
+function requestFullScreen(element)
+{
+	// Supports most browsers and their versions.
+	var requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
+
+	if (requestMethod)
+	{ // Native full screen.
+		requestMethod.call(element);
+	}
+	else if (typeof window.ActiveXObject !== "undefined")
+	{ // Older IE.
+		var wscript = new ActiveXObject("WScript.Shell");
+		if (wscript !== null)
+		{
+			wscript.SendKeys("{F11}");
+		}
+	}
 }
