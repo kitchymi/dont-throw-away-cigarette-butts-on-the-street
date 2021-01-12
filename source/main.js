@@ -1,3 +1,5 @@
+var count = 0;
+
 function draw()
 {
 	document.addEventListener("fullscreenchange", onFullscreen);
@@ -56,7 +58,7 @@ function onFullscreen()
 
 function onOrientationChange()
 {
-	document.getElementById("show").innerText = "방향이 바뀌었다고?";
+	document.getElementById("show").innerText = "방향이 바뀌었다고? " + count;
 	var canvas = document.getElementById("canvas");
 
 	canvas.width = window.innerWidth;
