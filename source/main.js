@@ -1,6 +1,6 @@
 function draw()
 {
-	window.addEventListener("orientationchange", onOrientationChanged);
+	window.addEventListener("resize", onResized);
 	initializeCanvas();
 }
 
@@ -48,9 +48,9 @@ function initializeCanvas()
 }
 
 var count = 0;
-function onOrientationChanged()
+function onResized()
 {
 	count++;
-	document.getElementById("show").innerText = "onOrientationChanged count: " + count + " width: " + window.innerWidth + " height: " + window.innerHeight;
+	document.getElementById("show").innerText = "onResized count: " + count + " width: " + window.innerWidth + " height: " + window.innerHeight;
 	initializeCanvas();
 }
