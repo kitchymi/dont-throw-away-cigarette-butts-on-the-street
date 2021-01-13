@@ -46,14 +46,14 @@ function init()
 			inputDown = true;
 
 			var touches = event.changedTouches;
-			inputX = touches[0].screenX;
-			inputY = touches[0].screenY;
+			inputX = touches[0].clientX;
+			inputY = touches[0].clientY;
 		}, false);
 	canvas.addEventListener("touchmove", function(event)
 		{
 			var touches = event.changedTouches;
-			inputX = touches[0].screenX;
-			inputY = touches[0].screenY;
+			inputX = touches[0].clientX;
+			inputY = touches[0].clientY;
 			document.getElementById("show").innerText = inputX + ", " + inputY + "\n" + canvas.width + ", " + canvas.height + "\n" + canvasScale;
 		}, false);
 	canvas.addEventListener("touchend", function(event)
