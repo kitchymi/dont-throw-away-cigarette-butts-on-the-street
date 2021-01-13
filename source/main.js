@@ -41,6 +41,24 @@ function init()
 		inputX = event.clientX * windowScale;
 		inputY = event.clientY * windowScale;
 	};
+	canvas.addEventListener("touchstart", function(event)
+		{
+			inputDown = true;
+
+			var touches = event.changedTouches;
+			inputX = touches[0].screenX * windowScale;
+			inputY = touches[0].screenY * windowScale;
+		}, false);
+	canvas.addEventListener("touchmove", function(event)
+		{
+			var touches = event.changedTouches;
+			inputX = touches[0].screenX * windowScale;
+			inputY = touches[0].screenY * windowScale;
+		}, false);
+	canvas.addEventListener("touchend", function(event)
+		{
+			inputDown = false;
+		}, false);
 
 	backgroundImage = new Image();
 	backgroundImage.src = "resources/images/city.jpg";
