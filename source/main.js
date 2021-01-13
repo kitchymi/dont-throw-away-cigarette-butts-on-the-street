@@ -1,68 +1,38 @@
-var count = 0;
-
 function draw()
 {
-	document.addEventListener("fullscreenchange", onFullscreen);
-	document.addEventListener("webkitfullscreenchange", onFullscreen);
-	document.addEventListener("mozfullscreenchange", onFullscreen);
-	document.addEventListener("MSFullscreenChange", onFullscreen);
-
-	// window.addEventListener("deviceorientation", onOrientationChange, true);
-
-	document.getElementById("btnHello").onclick = function()
-	{
-		screen.orientation.lock("landscape-primary");
-		var elem = document.getElementById("canvas");
-		requestFullScreen(elem);
-	}
-
-	drawCanvas();
+	initializeCanvas();
 }
 
-function requestFullScreen(element)
-{
-	// Supports most browsers and their versions.
-	var requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
-
-	if (requestMethod)
-	{ // Native full screen.
-		requestMethod.call(element);
-	}
-	else if (typeof window.ActiveXObject !== "undefined")
-	{ // Older IE.
-		var wscript = new ActiveXObject("WScript.Shell");
-		if (wscript !== null)
-		{
-			wscript.SendKeys("{F11}");
-		}
-	}
-}
-
-function onFullscreen()
-{
-	drawCanvas();
-}
-
-function onOrientationChange(event)
-{
-	count++;
-	document.getElementById("show").innerText = "방향이 바뀌었다고? " + count;
-	drawCanvas();
-}
-
-function drawCanvas()
+function initializeCanvas()
 {
 	var canvas = document.getElementById("canvas");
 
-	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight;
+	screenWidth = window.innerWidth;
+	screenHeight = window.innerHeight;
+
+	var aspectRatio = screenWidth / screenHeight;
+	var baseRatio = 16 / 9;
+
+	if (aspectRatio > baseRatio)
+	{
+		canvas.width = screenHeight * baseRatio;
+		canvas.height = screenHeight;
+	}
+	else
+	{
+		canvas.width = screenWidth
+		canvas.height = screenWidth / baseRatio;
+	}
 	
 	if (canvas.getContext)
 	{
 		var ctx = canvas.getContext("2d");
 
+		// ctx.fillStyle = "rgb(255, 255, 255)";
+		// ctx.fillRect (0, 0, canvas.width, canvas.height);
+
 		ctx.fillStyle = "rgb(0, 200, 0, 0.5)";
-		ctx.fillRect (10, 10, window.innerWidth - 20, window.innerHeight - 20);
+		ctx.fillRect (10, 10, canvas.width - 20, canvas.height - 20);
 		// ctx.fillRect (10, 10, 1900, 1060);
 
 		ctx.fillStyle = "rgb(200, 0, 0, 0.5)";
