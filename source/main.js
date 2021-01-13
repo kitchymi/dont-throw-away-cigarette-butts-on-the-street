@@ -54,6 +54,7 @@ function init()
 			var touches = event.changedTouches;
 			inputX = touches[0].screenX;
 			inputY = touches[0].screenY;
+			document.getElementById("show").innerText = inputX + ", " + inputY;
 		}, false);
 	canvas.addEventListener("touchend", function(event)
 		{
