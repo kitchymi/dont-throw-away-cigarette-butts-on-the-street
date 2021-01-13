@@ -44,10 +44,7 @@ function initializeCanvas()
 	}
 }
 
-var count = 0;
 function onResized()
 {
-	count++;
-	document.getElementById("show").innerText = "onResized count: " + count + " width: " + window.innerWidth + " height: " + window.innerHeight;
 	initializeCanvas();
 }
