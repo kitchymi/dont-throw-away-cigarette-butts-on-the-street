@@ -1,7 +1,10 @@
+var pastScreenWidth = -1;
+var pastScreenHeight = -1;
+
 function draw()
 {
-	window.addEventListener("resize", onResized);
 	initializeCanvas();
+	setInterval(update, 20);
 }
 
 function initializeCanvas()
@@ -10,6 +13,12 @@ function initializeCanvas()
 
 	screenWidth = window.innerWidth;
 	screenHeight = window.innerHeight;
+
+	if (pastScreenWidth == screenWidth && pastScreenHeight == screenHeight)
+		return;
+
+	pastScreenWidth = screenWidth;
+	pastScreenHeight = screenHeight;
 
 	var aspectRatio = screenWidth / screenHeight;
 	var baseRatio = 16 / 9;
@@ -24,8 +33,6 @@ function initializeCanvas()
 		canvas.width = screenWidth
 		canvas.height = screenWidth / baseRatio;
 	}
-
-	alert(screenWidth + ", " + screenHeight + "\n" + canvas.width + ", " + canvas.height);
 	
 	if (canvas.getContext)
 	{
@@ -34,11 +41,11 @@ function initializeCanvas()
 		// ctx.fillStyle = "rgb(255, 255, 255)";
 		// ctx.fillRect (0, 0, canvas.width, canvas.height);
 
-		ctx.fillStyle = "rgb(0, 200, 0, 0.5)";
+		ctx.fillStyle = "rgba(0, 200, 0, 0.5)";
 		ctx.fillRect (10, 10, canvas.width - 20, canvas.height - 20);
 		// ctx.fillRect (10, 10, 1900, 1060);
 
-		ctx.fillStyle = "rgb(200, 0, 0, 0.5)";
+		ctx.fillStyle = "rgba(200, 0, 0, 0.5)";
 		ctx.fillRect (10, 10, 50, 50);
 
 		ctx.fillStyle = "rgba(0, 0, 200, 0.5)";
@@ -46,7 +53,7 @@ function initializeCanvas()
 	}
 }
 
-function onResized()
+function update()
 {
 	initializeCanvas();
 }
