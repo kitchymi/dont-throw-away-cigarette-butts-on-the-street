@@ -57,6 +57,7 @@ function init()
 var x = 0;
 var check = 0;
 var catX = 0, catY = 0;
+var isBGM = false;
 function update()
 {
 	checkWindowSizeAndUpdateCanvas();
@@ -70,6 +71,12 @@ function update()
 	{
 		catX = inputX;
 		catY = inputY;
+
+		if (!isBGM)
+		{
+			isBGM = true;
+			bgm.play();
+		}
 	}
 	drawImage(catImage, catX, catY, 120, 88);
 }
