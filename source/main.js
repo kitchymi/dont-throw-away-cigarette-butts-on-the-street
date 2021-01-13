@@ -26,6 +26,9 @@ function initializeCanvas()
 		canvas.height = screenWidth / baseRatio;
 	}
 	
+	canvas.width = screenWidth
+	canvas.height = screenHeight;
+	
 	if (canvas.getContext)
 	{
 		var ctx = canvas.getContext("2d");
