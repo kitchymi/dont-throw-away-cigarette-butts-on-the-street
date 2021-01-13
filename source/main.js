@@ -1,16 +1,32 @@
-var pastScreenWidth = -1;
-var pastScreenHeight = -1;
+var canvas;
+var canvasContext;
 
-function draw()
+function init()
 {
-	initializeCanvas();
+	canvas = document.getElementById("canvas");
+	canvasContext = canvas.getContext("2d");
+
+	checkWindowSizeAndUpdateCanvas();
 	setInterval(update, 20);
 }
 
-function initializeCanvas()
+var x = 0;
+function update()
 {
-	var canvas = document.getElementById("canvas");
+	checkWindowSizeAndUpdateCanvas();
 
+	canvasContext.fillStyle = "rgb(255, 255, 255)";
+	canvasContext.fillRect(0, 0, canvas.width, canvas.height);
+
+	canvasContext.fillStyle = "rgba(200, 0, 0, 0.5)";
+	canvasContext.fillRect(x, 10, 50, 50);
+	x++;
+}
+
+var pastScreenWidth = -1;
+var pastScreenHeight = -1;
+function checkWindowSizeAndUpdateCanvas()
+{
 	screenWidth = window.innerWidth;
 	screenHeight = window.innerHeight;
 
@@ -19,7 +35,11 @@ function initializeCanvas()
 
 	pastScreenWidth = screenWidth;
 	pastScreenHeight = screenHeight;
+	initializeCanvas(screenWidth, screenHeight);
+}
 
+function initializeCanvas(screenWidth, screenHeight)
+{
 	var aspectRatio = screenWidth / screenHeight;
 	var baseRatio = 16 / 9;
 
@@ -33,27 +53,4 @@ function initializeCanvas()
 		canvas.width = screenWidth
 		canvas.height = screenWidth / baseRatio;
 	}
-	
-	if (canvas.getContext)
-	{
-		var ctx = canvas.getContext("2d");
-
-		// ctx.fillStyle = "rgb(255, 255, 255)";
-		// ctx.fillRect (0, 0, canvas.width, canvas.height);
-
-		ctx.fillStyle = "rgba(0, 200, 0, 0.5)";
-		ctx.fillRect (10, 10, canvas.width - 20, canvas.height - 20);
-		// ctx.fillRect (10, 10, 1900, 1060);
-
-		ctx.fillStyle = "rgba(200, 0, 0, 0.5)";
-		ctx.fillRect (10, 10, 50, 50);
-
-		ctx.fillStyle = "rgba(0, 0, 200, 0.5)";
-		ctx.fillRect (30, 30, 50, 50);
-	}
-}
-
-function update()
-{
-	initializeCanvas();
 }
