@@ -1,7 +1,6 @@
 function draw()
 {
-	window.addEventListener("onorientationchange", onOrientationChanged);
-
+	window.addEventListener("orientationchange", onOrientationChanged);
 	initializeCanvas();
 }
 
@@ -25,7 +24,7 @@ function initializeCanvas()
 		canvas.width = screenWidth
 		canvas.height = screenWidth / baseRatio;
 	}
-	
+
 	canvas.width = screenWidth
 	canvas.height = screenHeight;
 	
