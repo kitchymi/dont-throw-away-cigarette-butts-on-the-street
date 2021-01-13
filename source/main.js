@@ -7,7 +7,7 @@ function draw()
 	document.addEventListener("mozfullscreenchange", onFullscreen);
 	document.addEventListener("MSFullscreenChange", onFullscreen);
 
-	window.addEventListener("deviceorientation", onOrientationChange, true);
+	// window.addEventListener("deviceorientation", onOrientationChange, true);
 
 	document.getElementById("btnHello").onclick = function()
 	{
@@ -15,6 +15,8 @@ function draw()
 		var elem = document.getElementById("canvas");
 		requestFullScreen(elem);
 	}
+
+	drawCanvas();
 }
 
 function requestFullScreen(element)
@@ -38,41 +40,30 @@ function requestFullScreen(element)
 
 function onFullscreen()
 {
-	var canvas = document.getElementById("canvas");
-
-	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight;
-	
-	if (canvas.getContext)
-	{
-		var ctx = canvas.getContext("2d");
-
-		ctx.fillStyle = "rgb(0, 200, 0, 0.5)";
-		ctx.fillRect (10, 10, window.innerWidth - 20, window.innerHeight - 20);
-
-		ctx.fillStyle = "rgb(200, 0, 0, 0.5)";
-		ctx.fillRect (10, 10, 50, 50);
-
-		ctx.fillStyle = "rgba(0, 0, 200, 0.5)";
-		ctx.fillRect (30, 30, 50, 50);
-	}
+	drawCanvas();
 }
 
 function onOrientationChange(event)
 {
 	count++;
 	document.getElementById("show").innerText = "방향이 바뀌었다고? " + count;
+	drawCanvas();
+}
+
+function drawCanvas()
+{
 	var canvas = document.getElementById("canvas");
 
-	canvas.width = window.innerWidth;
-	canvas.height = window.innerHeight;
+	// canvas.width = window.innerWidth;
+	// canvas.height = window.innerHeight;
 	
 	if (canvas.getContext)
 	{
 		var ctx = canvas.getContext("2d");
 
 		ctx.fillStyle = "rgb(0, 200, 0, 0.5)";
-		ctx.fillRect (10, 10, window.innerWidth - 20, window.innerHeight - 20);
+		//ctx.fillRect (10, 10, window.innerWidth - 20, window.innerHeight - 20);
+		ctx.fillRect (10, 10, 1900, 1060);
 
 		ctx.fillStyle = "rgb(200, 0, 0, 0.5)";
 		ctx.fillRect (10, 10, 50, 50);
