@@ -1,7 +1,6 @@
 /* canvas */
 var canvas;
 var canvasContext;
-var canvasScale;
 var windowScale;
 
 /* input */
@@ -83,7 +82,7 @@ function update()
 	canvasContext.fillStyle = "rgb(255, 255, 255)";
 	canvasContext.fillRect(0, 0, canvas.width, canvas.height);
 
-	drawImage(backgroundImage, 0, 0, 1920, 960);
+	canvasContext.drawImage(backgroundImage, 0, 0, 1920, 960);
 
 	if (inputDown)
 	{
@@ -96,7 +95,11 @@ function update()
 			bgm.play();
 		}
 	}
-	drawImage(catImage, catX, catY, 120, 88);
+	canvasContext.drawImage(catImage, catX, catY, 120, 88);
+
+	canvasContext.font = "200px CuteFont";
+	canvasContext.fillStyle = "rgba(255, 0, 255, 1)";
+	canvasContext.fillText("시작", 960, 480);
 }
 
 var pastScreenWidth = -1;
@@ -130,13 +133,8 @@ function initializeCanvas(screenWidth, screenHeight)
 		canvas.height = screenWidth / baseRatio;
 	}
 
-	canvasScale = canvas.width / 1920;
-	windowScale = 1920 / canvas.width;
-}
+	var canvasScale = canvas.width / 1920;
+	canvasContext.scale(canvasScale, canvasScale);
 
-function drawImage(image, x, y, width, height)
-{
-	canvasContext.drawImage(image,
-		    x * canvasScale,      y * canvasScale,
-		width * canvasScale, height * canvasScale);
+	windowScale = 1920 / canvas.width;
 }
