@@ -45,7 +45,10 @@ function initializeCanvas()
 	}
 }
 
+var count = 0;
 function onOrientationChanged()
 {
+	count++;
+	document.getElementById("show").innerText = "onOrientationChanged count: " + count;
 	initializeCanvas();
 }
