@@ -51,6 +51,6 @@ var count = 0;
 function onOrientationChanged()
 {
 	count++;
-	document.getElementById("show").innerText = "onOrientationChanged count: " + count;
+	document.getElementById("show").innerText = "onOrientationChanged count: " + count + " width: " + window.innerWidth + " height: " + window.innerHeight;
 	initializeCanvas();
 }
