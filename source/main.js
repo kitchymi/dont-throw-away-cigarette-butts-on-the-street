@@ -24,9 +24,6 @@ function initializeCanvas()
 		canvas.width = screenWidth
 		canvas.height = screenWidth / baseRatio;
 	}
-
-	canvas.width = screenWidth
-	canvas.height = screenHeight;
 	
 	if (canvas.getContext)
 	{
