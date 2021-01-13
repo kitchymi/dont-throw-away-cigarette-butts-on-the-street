@@ -42,3 +42,8 @@ function initializeCanvas()
 		ctx.fillRect (30, 30, 50, 50);
 	}
 }
+
+function onOrientationChanged()
+{
+	initializeCanvas();
+}
