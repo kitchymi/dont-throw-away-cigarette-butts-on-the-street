@@ -1,6 +1,6 @@
 function draw()
 {
-	window.addEventListener("orientationEvent", onOrientationChanged);
+	window.addEventListener("onorientationchange", onOrientationChanged);
 
 	initializeCanvas();
 }
