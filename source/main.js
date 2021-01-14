@@ -7,12 +7,24 @@ var windowScale;
 var inputPointerX = 0, inputPointerY = 0;
 var inputPointer = false, inputPointerPast = false, inputPointerDown = false;
 
+/* loading control */
+var assetCount = 0;
+var loadedCount = 0;
+
+/* status */
+var taskRunning = false;
+
 function init()
 {
 	/* canvas */
 	canvas = document.getElementById("canvas");
 	canvasContext = canvas.getContext("2d");
 	checkWindowSizeAndUpdateCanvas();
+
+	canvasContext.font = "64px Arial";
+	canvasContext.textBaseline = "top";
+	canvasContext.fillStyle = "rgb(0, 0, 0)";
+	canvasContext.fillText("Loading...", 0, 0);
 
 	/* input */
 	canvas.onmouseover = function()
@@ -61,7 +73,7 @@ function init()
 
 	/* run application */
 	setup();
-	setInterval(update, 20);
+	checkLoading();
 }
 
 var pastScreenWidth = -1;
@@ -101,6 +113,52 @@ function initializeCanvas(screenWidth, screenHeight)
 	windowScale = 1920 / canvas.width;
 }
 
+function checkLoading()
+{
+	if (taskRunning)
+		return;
+
+	if (loadedCount >= assetCount)
+	{
+		taskRunning = true;
+		setInterval(update, 20);
+	}
+}
+
+function loadImage(path)
+{
+	assetCount++;
+
+	var image = new Image();
+	image.addEventListener('load', function()
+	{
+		loadedCount++;
+		checkLoading();
+	}, false);
+	image.src = path;
+
+	return image;
+}
+
+function loadSound(path)
+{
+	var sound = new Audio(path);
+	sound.load();
+
+	return sound;
+}
+
+function loadFont(name)
+{
+	assetCount++;
+
+	document.fonts.load('1rem "' + name + '"').then(function()
+	{
+		loadedCount++;
+		checkLoading();
+	});
+}
+
 function update()
 {
 	/* canvas control */
@@ -133,13 +191,12 @@ var bgm;
 function setup()
 {
 	/* load assets */
-	backgroundImage = new Image();
-	backgroundImage.src = "resources/images/city.jpg";
-	catImage = new Image();
-	catImage.src = "resources/images/catcat.jpg";
+	backgroundImage = loadImage("resources/images/city.jpg");
+	catImage = loadImage("resources/images/catcat.jpg");
 
-	bgm = new Audio("resources/sounds/bgm.mp3");
-	bgm.loop = true;
+	bgm = loadSound("resources/sounds/bgm.mp3");
+
+	loadFont("CuteFont");
 }
 
 /* variables */
