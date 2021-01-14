@@ -73,7 +73,7 @@ function init()
 
 	/* run application */
 	setup();
-	checkLoading();
+	startTaskWhenAllAssetsLoaded();
 }
 
 var pastScreenWidth = -1;
@@ -113,7 +113,7 @@ function initializeCanvas(screenWidth, screenHeight)
 	windowScale = 1920 / canvas.width;
 }
 
-function checkLoading()
+function startTaskWhenAllAssetsLoaded()
 {
 	if (taskRunning)
 		return;
@@ -133,7 +133,7 @@ function loadImage(path)
 	image.addEventListener('load', function()
 	{
 		loadedCount++;
-		checkLoading();
+		startTaskWhenAllAssetsLoaded();
 	}, false);
 	image.src = path;
 
@@ -155,7 +155,7 @@ function loadFont(name)
 	document.fonts.load('1rem "' + name + '"').then(function()
 	{
 		loadedCount++;
-		checkLoading();
+		startTaskWhenAllAssetsLoaded();
 	});
 }
 
@@ -195,6 +195,7 @@ function setup()
 	catImage = loadImage("resources/images/catcat.jpg");
 
 	bgm = loadSound("resources/sounds/bgm.mp3");
+	bgm.loop = true;
 
 	loadFont("CuteFont");
 }
