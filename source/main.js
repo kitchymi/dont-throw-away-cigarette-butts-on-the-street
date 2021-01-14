@@ -1,3 +1,7 @@
+/**************************************************************************/
+/*                            engine core part                            */
+/**************************************************************************/
+
 /* canvas */
 var canvas;
 var canvasContext;
@@ -136,6 +140,28 @@ function startTaskWhenAllAssetsLoaded()
 	}
 }
 
+function update()
+{
+	/* canvas control */
+	checkWindowSizeAndUpdateCanvas();
+	canvasContext.fillStyle = "rgb(255, 255, 255)";
+	canvasContext.fillRect(0, 0, canvas.width, canvas.height);
+
+	/* input control */
+	if (!inputPointerPast && inputPointer)
+		inputPointerDown = true;
+	else
+		inputPointerDown = false;
+	inputPointerPast = inputPointer;
+
+	/* draw */
+	draw();
+}
+
+/**************************************************************************/
+/*                            engine API part                             */
+/**************************************************************************/
+
 function loadImage(path)
 {
 	assetCount++;
@@ -180,24 +206,6 @@ function setKeyupEventListener(listener)
 	keyupEventListener = listener;
 }
 
-function update()
-{
-	/* canvas control */
-	checkWindowSizeAndUpdateCanvas();
-	canvasContext.fillStyle = "rgb(255, 255, 255)";
-	canvasContext.fillRect(0, 0, canvas.width, canvas.height);
-
-	/* input control */
-	if (!inputPointerPast && inputPointer)
-		inputPointerDown = true;
-	else
-		inputPointerDown = false;
-	inputPointerPast = inputPointer;
-
-	/* draw */
-	draw();
-}
-
 /**************************************************************************/
 /*                            application part                            */
 /**************************************************************************/
@@ -227,7 +235,7 @@ function setup()
 	});
 	setKeyupEventListener(function(keyCode)
 	{
-		
+
 	});
 }
 
