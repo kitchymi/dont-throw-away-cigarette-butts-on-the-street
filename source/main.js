@@ -6,6 +6,8 @@
 var canvas;
 var canvasContext;
 var windowScale;
+var pastScreenWidth = -1;
+var pastScreenHeight = -1;
 
 /* input */
 var inputPointerX = 0, inputPointerY = 0;
@@ -91,8 +93,6 @@ function init()
 	startTaskWhenAllAssetsLoaded();
 }
 
-var pastScreenWidth = -1;
-var pastScreenHeight = -1;
 function checkWindowSizeAndUpdateCanvas()
 {
 	screenWidth = window.innerWidth;
