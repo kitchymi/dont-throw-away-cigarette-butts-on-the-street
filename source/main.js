@@ -11,7 +11,7 @@ var pastScreenHeight = -1;
 
 /* input */
 var inputPointerX = 0, inputPointerY = 0;
-var inputPointer = false, inputPointerPast = false, inputPointerDown = false;
+var inputPointer = false, inputPointerPast = false, inputPointerDown = false, inputPointerUp = false;
 var keydownEventListener = null, keyupEventListener = null;
 
 /* loading control */
@@ -152,6 +152,10 @@ function update()
 		inputPointerDown = true;
 	else
 		inputPointerDown = false;
+	if (inputPointerPast && !inputPointer)
+		inputPointerUp = true;
+	else
+		inputPointerUp = false;
 	inputPointerPast = inputPointer;
 
 	/* draw */
@@ -225,7 +229,7 @@ var score = 0;
 /* object variables */
 var catSizeX = 288, catSizeY = 211.2;
 var catPositionX = 48, catPositionY = 480;
-var catPositionXLimit = 1920 - catSizeX;
+var catPositionXLimit = 1920;
 
 function setup()
 {
@@ -252,6 +256,8 @@ function setup()
 
 function draw()
 {
+	processUserInputPointer();
+
 	switch(state)
 	{
 		case 0:
@@ -265,7 +271,6 @@ function draw()
 
 			canvasContext.font = "103px CuteFont";
 			canvasContext.textAlign = "left"
-			canvasContext.textBaseline = "bottom";
 			canvasContext.fillStyle = "rgb(0, 0, 0)";
 			canvasContext.strokeStyle = "white";
 			canvasContext.lineWidth = 2;
@@ -280,15 +285,16 @@ function draw()
 
 			canvasContext.drawImage(titleCatImage, 48, 480, catSizeX, catSizeY);
 
-			if (inputPointerDown)
+			if (inputPointerUp)
 			{
+				releaseUserInputPointer();
 				bgm.play();
 				state = 1;
 			}
 			break;
 
 		case 1:
-			if (inputPointer)
+			if (getUserInputPointer())
 			{
 				if (inputPointerX < 640)
 				{
@@ -308,7 +314,10 @@ function draw()
 
 			canvasContext.font = "96px CuteFont";
 			canvasContext.textAlign = "left"
+			canvasContext.textBaseline = "bottom";
 			canvasContext.fillStyle = "rgb(0, 0, 0)";
+			canvasContext.strokeStyle = "white";
+			canvasContext.lineWidth = 2;
 			canvasContext.strokeText("화살표키로 움직이세요", 55, 188);
 			canvasContext.fillText("화살표키로 움직이세요", 55, 188);
 
@@ -326,3 +335,23 @@ function draw()
 
 /* position, scale transform: (12 / 5) * value */
 /* text's y position transform: (12 / 5) * position + (22 / 43) * font_size */
+
+/* user input processing */
+var userInputPointer = false;
+function processUserInputPointer()
+{
+	if (inputPointerDown)
+		userInputPointer = true;
+	else if (inputPointerUp)
+		userInputPointer = false;
+}
+
+function getUserInputPointer()
+{
+	return userInputPointer;
+}
+
+function releaseUserInputPointer()
+{
+	userInputPointer = false;
+}
