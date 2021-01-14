@@ -6,6 +6,7 @@ var windowScale;
 /* input */
 var inputPointerX = 0, inputPointerY = 0;
 var inputPointer = false, inputPointerPast = false, inputPointerDown = false;
+var keydownEventListener = null, keyupEventListener = null;
 
 /* loading control */
 var assetCount = 0;
@@ -70,6 +71,16 @@ function init()
 		{
 			inputPointer = false;
 		}, false);
+	document.addEventListener("keydown", function(event)
+	{
+		if (keydownEventListener != null)
+			keydownEventListener(event.keyCode);
+	});
+	document.addEventListener("keyup", function(event)
+	{
+		if (keyupEventListener != null)
+			keyupEventListener(event.keyCode);
+	});
 
 	/* run application */
 	setup();
@@ -159,6 +170,16 @@ function loadFont(name)
 	});
 }
 
+function setKeydownEventListener(listener)
+{
+	keydownEventListener = listener;
+}
+
+function setKeyupEventListener(listener)
+{
+	keyupEventListener = listener;
+}
+
 function update()
 {
 	/* canvas control */
@@ -198,6 +219,16 @@ function setup()
 	bgm.loop = true;
 
 	loadFont("CuteFont");
+
+	/* listeners */
+	setKeydownEventListener(function(keyCode)
+	{
+
+	});
+	setKeyupEventListener(function(keyCode)
+	{
+		
+	});
 }
 
 /* variables */
