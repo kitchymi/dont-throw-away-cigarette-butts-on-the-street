@@ -144,7 +144,7 @@ function update()
 {
 	/* canvas control */
 	checkWindowSizeAndUpdateCanvas();
-	canvasContext.fillStyle = "rgb(255, 255, 255)";
+	canvasContext.fillStyle = "rgb(0, 0, 0)";
 	canvasContext.fillRect(0, 0, canvas.width, canvas.height);
 
 	/* input control */
@@ -212,16 +212,21 @@ function setKeyupEventListener(listener)
 
 /* assets - images */
 var backgroundImage;
-var catImage;
+var titleCatImage;
+var playCatImage;
 
 /* assets - sounds */
 var bgm;
+
+/* variables */
+var state = 0;
 
 function setup()
 {
 	/* load assets */
 	backgroundImage = loadImage("resources/images/city.jpg");
-	catImage = loadImage("resources/images/catcat.jpg");
+	titleCatImage = loadImage("resources/images/titlecat.jpg");
+	playCatImage = loadImage("resources/images/catcat.jpg");
 
 	bgm = loadSound("resources/sounds/bgm.mp3");
 	bgm.loop = true;
@@ -239,30 +244,45 @@ function setup()
 	});
 }
 
-/* variables */
-var x = 0;
-var check = 0;
-var catX = 0, catY = 0;
-var isBGM = false;
-
 function draw()
 {
-	canvasContext.drawImage(backgroundImage, 0, 0, 1920, 960);
-
-	if (inputPointerDown)
+	switch(state)
 	{
-		catX = inputPointerX;
-		catY = inputPointerY;
+		case 0:
+			canvasContext.drawImage(backgroundImage, 0, 0, 1920, 960);
 
-		if (!isBGM)
-		{
-			isBGM = true;
-			bgm.play();
-		}
+			canvasContext.font = "240px CuteFont";
+			canvasContext.textAlign = "center"
+			canvasContext.textBaseline = "bottom";
+			canvasContext.fillStyle = "rgb(0, 0, 255)";
+			canvasContext.fillText("시작하려면 터치 !", 960, 795);
+
+			canvasContext.font = "103px CuteFont";
+			canvasContext.textAlign = "left"
+			canvasContext.textBaseline = "bottom";
+			canvasContext.fillStyle = "rgb(0, 0, 0)";
+			canvasContext.strokeStyle = "white";
+			canvasContext.lineWidth = 2;
+			canvasContext.strokeText("담배꽁초를 피해 오른쪽 벽으로 가세요", 24, 103);
+			canvasContext.fillText("담배꽁초를 피해 오른쪽 벽으로 가세요", 24, 103);
+
+			canvasContext.textAlign = "right"
+			canvasContext.strokeText("font - 어비똘영", 1896, 850);
+			canvasContext.fillText("font - 어비똘영", 1896, 850);
+			canvasContext.strokeText("bgm - 추르처럽 추르처럽", 1896, 946);
+			canvasContext.fillText("bgm - 추르처럽 추르처럽", 1896, 946);
+
+			canvasContext.drawImage(titleCatImage, 48, 480, 288, 211.2);
+
+			if (inputPointerDown)
+			{
+				bgm.play();
+				state = 1;
+			}
+			break;
+
+		case 1:
+			canvasContext.drawImage(backgroundImage, 0, 0, 1920, 960);
+			break;
 	}
-	canvasContext.drawImage(catImage, catX, catY, 120, 88);
-
-	canvasContext.font = "200px CuteFont";
-	canvasContext.fillStyle = "rgba(255, 0, 255, 1)";
-	canvasContext.fillText("시작", 960, 480);
 }
