@@ -4,102 +4,64 @@ var canvasContext;
 var windowScale;
 
 /* input */
-var inputX = 0, inputY = 0;
-var inputDown = false;
-
-/* assets - images */
-var backgroundImage;
-var catImage;
-
-/* assets - sounds */
-var bgm;
+var inputPointerX = 0, inputPointerY = 0;
+var inputPointer = false, inputPointerPast = false, inputPointerDown = false;
 
 function init()
 {
+	/* canvas */
 	canvas = document.getElementById("canvas");
 	canvasContext = canvas.getContext("2d");
+	checkWindowSizeAndUpdateCanvas();
 
+	/* input */
 	canvas.onmouseover = function()
 	{
-		inputDown = false;
+		inputPointer = false;
 	};
 	canvas.onmouseout = function()
 	{
-		inputDown = false;
+		inputPointer = false;
 	};
 	canvas.onmousedown = function()
 	{    
-		inputDown = true;
+		inputPointer = true;
 	};
 	canvas.onmouseup = function()
 	{
-		inputDown = false;
+		inputPointer = false;
 	};
 	canvas.onmousemove = function(event)
 	{
-		inputX = event.clientX * windowScale;
-		inputY = event.clientY * windowScale;
+		inputPointerX = event.clientX * windowScale;
+		inputPointerY = event.clientY * windowScale;
 	};
 	canvas.addEventListener("touchstart", function(event)
 		{
-			inputDown = true;
+			inputPointer = true;
 
 			var touches = event.changedTouches;
-			inputX = touches[0].clientX * windowScale;
-			inputY = touches[0].clientY * windowScale;
+			inputPointerX = touches[0].clientX * windowScale;
+			inputPointerY = touches[0].clientY * windowScale;
 		}, false);
 	canvas.addEventListener("touchmove", function(event)
 		{
 			var touches = event.changedTouches;
-			inputX = touches[0].clientX * windowScale;
-			inputY = touches[0].clientY * windowScale;
+			inputPointerX = touches[0].clientX * windowScale;
+			inputPointerY = touches[0].clientY * windowScale;
 		}, false);
 	canvas.addEventListener("touchend", function(event)
 		{
-			inputDown = false;
+			inputPointer = false;
+		}, false);
+	canvas.addEventListener("touchcancel", function(event)
+		{
+			inputPointer = false;
 		}, false);
 
-	backgroundImage = new Image();
-	backgroundImage.src = "resources/images/city.jpg";
-	catImage = new Image();
-	catImage.src = "resources/images/catcat.jpg";
-
-	bgm = new Audio("resources/sounds/bgm.mp3");
-	bgm.loop = true;
-
-	checkWindowSizeAndUpdateCanvas();
+	/* run application */
+	setup();
 	setInterval(update, 20);
-}
-
-var x = 0;
-var check = 0;
-var catX = 0, catY = 0;
-var isBGM = false;
-function update()
-{
-	checkWindowSizeAndUpdateCanvas();
-
-	canvasContext.fillStyle = "rgb(255, 255, 255)";
-	canvasContext.fillRect(0, 0, canvas.width, canvas.height);
-
-	canvasContext.drawImage(backgroundImage, 0, 0, 1920, 960);
-
-	if (inputDown)
-	{
-		catX = inputX;
-		catY = inputY;
-
-		if (!isBGM)
-		{
-			isBGM = true;
-			bgm.play();
-		}
-	}
-	canvasContext.drawImage(catImage, catX, catY, 120, 88);
-
-	canvasContext.font = "200px CuteFont";
-	canvasContext.fillStyle = "rgba(255, 0, 255, 1)";
-	canvasContext.fillText("시작", 960, 480);
 }
 
 var pastScreenWidth = -1;
@@ -137,4 +99,73 @@ function initializeCanvas(screenWidth, screenHeight)
 	canvasContext.scale(canvasScale, canvasScale);
 
 	windowScale = 1920 / canvas.width;
+}
+
+function update()
+{
+	/* canvas control */
+	checkWindowSizeAndUpdateCanvas();
+	canvasContext.fillStyle = "rgb(255, 255, 255)";
+	canvasContext.fillRect(0, 0, canvas.width, canvas.height);
+
+	/* input control */
+	if (!inputPointerPast && inputPointer)
+		inputPointerDown = true;
+	else
+		inputPointerDown = false;
+	inputPointerPast = inputPointer;
+
+	/* draw */
+	draw();
+}
+
+/**************************************************************************/
+/*                            application part                            */
+/**************************************************************************/
+
+/* assets - images */
+var backgroundImage;
+var catImage;
+
+/* assets - sounds */
+var bgm;
+
+function setup()
+{
+	/* load assets */
+	backgroundImage = new Image();
+	backgroundImage.src = "resources/images/city.jpg";
+	catImage = new Image();
+	catImage.src = "resources/images/catcat.jpg";
+
+	bgm = new Audio("resources/sounds/bgm.mp3");
+	bgm.loop = true;
+}
+
+/* variables */
+var x = 0;
+var check = 0;
+var catX = 0, catY = 0;
+var isBGM = false;
+
+function draw()
+{
+	canvasContext.drawImage(backgroundImage, 0, 0, 1920, 960);
+
+	if (inputPointerDown)
+	{
+		catX = inputPointerX;
+		catY = inputPointerY;
+
+		if (!isBGM)
+		{
+			isBGM = true;
+			bgm.play();
+		}
+	}
+	canvasContext.drawImage(catImage, catX, catY, 120, 88);
+
+	canvasContext.font = "200px CuteFont";
+	canvasContext.fillStyle = "rgba(255, 0, 255, 1)";
+	canvasContext.fillText("시작", 960, 480);
 }
