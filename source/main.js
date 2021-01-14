@@ -218,8 +218,14 @@ var playCatImage;
 /* assets - sounds */
 var bgm;
 
-/* variables */
+/* state variables */
 var state = 0;
+var score = 0;
+
+/* object variables */
+var catSizeX = 288, catSizeY = 211.2;
+var catPositionX = 48, catPositionY = 480;
+var catPositionXLimit = 1920 - catSizeX;
 
 function setup()
 {
@@ -272,7 +278,7 @@ function draw()
 			canvasContext.strokeText("bgm - 추르처럽 추르처럽", 1896, 946);
 			canvasContext.fillText("bgm - 추르처럽 추르처럽", 1896, 946);
 
-			canvasContext.drawImage(titleCatImage, 48, 480, 288, 211.2);
+			canvasContext.drawImage(titleCatImage, 48, 480, catSizeX, catSizeY);
 
 			if (inputPointerDown)
 			{
@@ -282,12 +288,38 @@ function draw()
 			break;
 
 		case 1:
+			if (inputPointer)
+			{
+				if (inputPointerX < 640)
+				{
+					catPositionX -= 30;
+					if (catPositionX < 0)
+						catPositionX = 0;
+				}
+				else if (inputPointerX > 1280)
+				{
+					catPositionX += 30;
+					if (catPositionX > catPositionXLimit)
+						catPositionX = catPositionXLimit;
+				}
+			}
+
 			canvasContext.drawImage(backgroundImage, 0, 0, 1920, 960);
 
 			canvasContext.font = "96px CuteFont";
 			canvasContext.textAlign = "left"
 			canvasContext.fillStyle = "rgb(0, 0, 0)";
-			canvasContext.fillText("화살표키로 움직이세요", 55, 103);
+			canvasContext.strokeText("화살표키로 움직이세요", 55, 188);
+			canvasContext.fillText("화살표키로 움직이세요", 55, 188);
+
+			canvasContext.font = "bold 144px CuteFont";
+			canvasContext.fillStyle = "rgb(255, 0, 0)";
+			canvasContext.strokeText("현재 점수 " + score, 48, 151);
+			canvasContext.fillText("현재 점수 " + score, 48, 151);
+			canvasContext.strokeText("목표 점수 100", 1440, 151);
+			canvasContext.fillText("목표 점수 100", 1440, 151);
+
+			canvasContext.drawImage(playCatImage, catPositionX, catPositionY, catSizeX, catSizeY);
 			break;
 	}
 }
