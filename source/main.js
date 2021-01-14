@@ -263,8 +263,8 @@ function draw()
 			canvasContext.fillStyle = "rgb(0, 0, 0)";
 			canvasContext.strokeStyle = "white";
 			canvasContext.lineWidth = 2;
-			canvasContext.strokeText("담배꽁초를 피해 오른쪽 벽으로 가세요", 24, 103);
-			canvasContext.fillText("담배꽁초를 피해 오른쪽 벽으로 가세요", 24, 103);
+			canvasContext.strokeText("담배꽁초를 피해 오른쪽 벽으로 가세요", 24, 118);
+			canvasContext.fillText("담배꽁초를 피해 오른쪽 벽으로 가세요", 24, 118);
 
 			canvasContext.textAlign = "right"
 			canvasContext.strokeText("font - 어비똘영", 1896, 850);
@@ -283,6 +283,14 @@ function draw()
 
 		case 1:
 			canvasContext.drawImage(backgroundImage, 0, 0, 1920, 960);
+
+			canvasContext.font = "96px CuteFont";
+			canvasContext.textAlign = "left"
+			canvasContext.fillStyle = "rgb(0, 0, 0)";
+			canvasContext.fillText("화살표키로 움직이세요", 55, 103);
 			break;
 	}
 }
+
+/* position, scale transform: (12 / 5) * value */
+/* text's y position transform: (12 / 5) * position + (22 / 43) * font_size */
