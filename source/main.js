@@ -101,6 +101,8 @@ function checkWindowSizeAndUpdateCanvas()
 	if (pastScreenWidth == screenWidth && pastScreenHeight == screenHeight)
 		return;
 
+	alert(screenWidth + ", " + screenHeight);
+
 	pastScreenWidth = screenWidth;
 	pastScreenHeight = screenHeight;
 	initializeCanvas(screenWidth, screenHeight);
