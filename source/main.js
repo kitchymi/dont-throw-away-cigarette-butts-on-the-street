@@ -111,7 +111,7 @@ function initializeCanvas(screenWidth, screenHeight)
 	var aspectRatio = screenWidth / screenHeight;
 	var baseRatio = 2;
 
-	$("meta[name=viewport]").attr("content", "height=" + screenHeight + ", user-scalable=no");
+	$("meta[name=viewport]").attr("content", "width=" + screenWidth + ", user-scalable=no");
 
 	if (aspectRatio > baseRatio)
 	{
