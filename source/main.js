@@ -274,6 +274,8 @@ function setup()
 	{
 
 	});
+	/* A: 65, S: 83, D: 68, W:87 */
+	/* l: 37, d: 40, r: 39, u:38 */
 }
 
 function draw()
