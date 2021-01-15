@@ -23,11 +23,9 @@ var taskRunning = false;
 
 function init()
 {
-	alert("start init");
 	/* canvas */
 	canvas = document.getElementById("canvas");
 	canvasContext = canvas.getContext("2d");
-	alert("before checkWindowSizeAndUpdateCanvas");
 	checkWindowSizeAndUpdateCanvas();
 
 	canvasContext.font = "64px Arial";
@@ -105,7 +103,6 @@ function checkWindowSizeAndUpdateCanvas()
 
 	pastScreenWidth = screenWidth;
 	pastScreenHeight = screenHeight;
-	alert("before initializeCanvas");
 	initializeCanvas(screenWidth, screenHeight);
 }
 
@@ -114,13 +111,12 @@ function initializeCanvas(screenWidth, screenHeight)
 	var aspectRatio = screenWidth / screenHeight;
 	var baseRatio = 2;
 
-	alert("before attr");
 	//document.getElementById("viewport").SetAttribute("content",
 	//	"width=" + screenWidth + ", user-scalable=no");
 	//$("#viewport").attr("content",
 	//	"width=" + screenWidth + ", user-scalable=no");
-	$('meta[name=viewport]').attr("content",
-		"width=" + screenWidth + ", user-scalable=no");
+	//$('meta[name=viewport]').attr("content",
+	//	"width=" + screenWidth + ", user-scalable=no");
 
 	if (aspectRatio > baseRatio)
 	{
