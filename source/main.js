@@ -111,6 +111,7 @@ function initializeCanvas(screenWidth, screenHeight)
 	var aspectRatio = screenWidth / screenHeight;
 	var baseRatio = 2;
 
+	alert("before attr");
 	//document.getElementById("viewport").SetAttribute("content",
 	//	"width=" + screenWidth + ", user-scalable=no");
 	//$("#viewport").attr("content",
