@@ -414,6 +414,15 @@ function draw()
 
 		case 3:
 			canvasContext.drawImage(backgroundImage, 0, 0, 1920, 960);
+
+			canvasContext.font = "192px CuteFont";
+			canvasContext.textAlign = "center"
+			canvasContext.textBaseline = "bottom";
+			canvasContext.fillStyle = "rgb(0, 0, 255)";
+			canvasContext.strokeStyle = "white";
+			canvasContext.lineWidth = 2;
+			canvasContext.strokeText("고양이를 도와줘서 고마워요!", 960, 761);
+			canvasContext.fillText("고양이를 도와줘서 고마워요!", 960, 761);
 			break;
 	}
 }
