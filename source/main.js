@@ -23,9 +23,11 @@ var taskRunning = false;
 
 function init()
 {
+	alert("start init");
 	/* canvas */
 	canvas = document.getElementById("canvas");
 	canvasContext = canvas.getContext("2d");
+	alert("before checkWindowSizeAndUpdateCanvas");
 	checkWindowSizeAndUpdateCanvas();
 
 	canvasContext.font = "64px Arial";
@@ -103,6 +105,7 @@ function checkWindowSizeAndUpdateCanvas()
 
 	pastScreenWidth = screenWidth;
 	pastScreenHeight = screenHeight;
+	alert("before initializeCanvas");
 	initializeCanvas(screenWidth, screenHeight);
 }
 
