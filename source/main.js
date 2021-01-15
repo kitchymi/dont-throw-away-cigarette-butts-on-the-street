@@ -330,6 +330,7 @@ function draw()
 					catPositionX += 30;
 					if (catPositionX > catPositionXLimit)
 					{
+						releaseInputPointer();
 						initializeCat();
 						cigaSpeed += 2;
 						score += 20;
