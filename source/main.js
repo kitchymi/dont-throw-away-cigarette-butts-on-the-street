@@ -144,8 +144,6 @@ function update()
 {
 	/* canvas control */
 	checkWindowSizeAndUpdateCanvas();
-	canvasContext.fillStyle = "rgb(0, 0, 0)";
-	canvasContext.fillRect(0, 0, canvas.width, canvas.height);
 
 	/* input control */
 	if (!inputPointerPast && inputPointer)
@@ -200,6 +198,15 @@ function loadFont(name)
 	});
 }
 
+function releaseInputPointer()
+{
+	inputPointerPast = false;
+	inputPointer = false;
+
+	inputPointerDown = false;
+	inputPointerUp = false;
+}
+
 function setKeydownEventListener(listener)
 {
 	keydownEventListener = listener;
@@ -222,6 +229,8 @@ var cigaImage;
 
 /* assets - sounds */
 var bgm;
+var levelSound;
+var stageSound;
 
 /* state variables */
 var state = 0;
@@ -251,6 +260,8 @@ function setup()
 
 	bgm = loadSound("resources/sounds/bgm.mp3");
 	bgm.loop = true;
+	levelSound = loadSound("resources/sounds/cateffect09.wav");
+	stageSound = loadSound("resources/sounds/cateffect03.wav");
 
 	loadFont("CuteFont");
 
@@ -267,8 +278,6 @@ function setup()
 
 function draw()
 {
-	processUserInputPointer();
-
 	switch(state)
 	{
 		case 0:
@@ -298,7 +307,8 @@ function draw()
 
 			if (inputPointerUp)
 			{
-				releaseUserInputPointer();
+				releaseInputPointer();
+				initializeCat();
 				initializeCigarette();
 				bgm.play();
 				state = 1;
@@ -307,7 +317,7 @@ function draw()
 
 		case 1:
 			/* game algorithm */
-			if (getUserInputPointer())
+			if (inputPointer)
 			{
 				if (inputPointerX < 640)
 				{
@@ -319,13 +329,31 @@ function draw()
 				{
 					catPositionX += 30;
 					if (catPositionX > catPositionXLimit)
-						catPositionX = catPositionXLimit;
+					{
+						initializeCat();
+						cigaSpeed += 2;
+						score += 20;
+						levelSound.play();
+
+						if (score >= 100)
+						{
+							stageSound.play();
+							state = 3;
+							break;
+						}
+					}
 				}
 			}
 
 			ciga0PositionY = getCigarettePosition(ciga0PositionY, cigaSpeed);
 			ciga1PositionY = getCigarettePosition(ciga1PositionY, cigaSpeed);
 			ciga2PositionY = getCigarettePosition(ciga2PositionY, cigaSpeed);
+
+			if (checkCollision())
+			{
+				releaseInputPointer();
+				state = 2;
+			}
 
 			/* rendering */
 			canvasContext.drawImage(backgroundImage, 0, 0, 1920, 960);
@@ -352,33 +380,53 @@ function draw()
 			canvasContext.drawImage(cigaImage, ciga1PositionX, ciga1PositionY, cigaSizeX, cigaSizeY);
 			canvasContext.drawImage(cigaImage, ciga2PositionX, ciga2PositionY, cigaSizeX, cigaSizeY);
 			break;
+
+		case 2:
+			canvasContext.fillStyle = "rgb(0, 0, 0)";
+			canvasContext.fillRect(0, 0, 1920, 960);
+
+			canvasContext.font = "96px CuteFont";
+			canvasContext.textAlign = "center";
+			canvasContext.textBaseline = "bottom";
+			canvasContext.fillStyle = "rgb(255, 255, 255)";
+			canvasContext.fillText("흡연자를 위해 재떨이를 비치합시다", 960, 620);
+			canvasContext.fillText("고양이가 담배꽁초를 먹고 몸이 상합니다", 960, 716);
+
+			canvasContext.font = "132px CuteFont";
+			canvasContext.fillStyle = "rgb(255, 0, 0)";
+			canvasContext.fillText("고양이가 담배꽁초를 먹고 몸이 상합니다", 960, 508);
+
+			canvasContext.font = "103px CuteFont";
+			canvasContext.textAlign = "right";
+			canvasContext.fillStyle = "rgb(255, 255, 255)";
+			canvasContext.fillText("다시 하려면 클릭!", 1896, 934);
+
+			if (inputPointerUp)
+			{
+				releaseInputPointer();
+				initializeCat();
+				initializeCigarette();
+				score = 0;
+				state = 1;
+			}
+			break;
+
+		case 3:
+			canvasContext.drawImage(backgroundImage, 0, 0, 1920, 960);
+			break;
 	}
 }
 
 /* position, scale transform: (12 / 5) * value */
 /* text's y position transform: (12 / 5) * position + (22 / 43) * font_size */
 
-/* user input processing */
-var userInputPointer = false;
-function processUserInputPointer()
-{
-	if (inputPointerDown)
-		userInputPointer = true;
-	else if (inputPointerUp)
-		userInputPointer = false;
-}
-
-function getUserInputPointer()
-{
-	return userInputPointer;
-}
-
-function releaseUserInputPointer()
-{
-	userInputPointer = false;
-}
-
 /* object control */
+function initializeCat()
+{
+	catPositionX = catOriginalPositionX;
+	catPositionY = catOriginalPositionY;
+}
+
 function initializeCigarette()
 {
 	ciga0PositionX = ciga0OriginalPositionX;
@@ -387,6 +435,7 @@ function initializeCigarette()
 	ciga0PositionY = ciga0OriginalPositionY;
 	ciga1PositionY = ciga1OriginalPositionY;
 	ciga2PositionY = ciga2OriginalPositionY;
+	cigaSpeed = 3;
 }
 
 function getCigarettePosition(position, speed)
@@ -396,4 +445,22 @@ function getCigarettePosition(position, speed)
 		position = -cigaSizeY;
 
 	return position;
+}
+
+function checkCollision()
+{
+	return checkCollisionPosition(catPositionX, catPositionY, ciga0PositionX, ciga0PositionY) ||
+		checkCollisionPosition(catPositionX, catPositionY, ciga1PositionX, ciga1PositionY) ||
+		checkCollisionPosition(catPositionX, catPositionY, ciga2PositionX, ciga2PositionY);
+}
+
+function checkCollisionPosition(catX, catY, cigaX, cigaY)
+{
+	var diffX = catX - cigaX;
+	var diffY = catY - cigaY;
+
+	return (diffX >= -catSizeX) &&
+		(diffX <= cigaSizeX) &&
+		(diffY >= -catSizeY) &&
+		(diffY <= cigaSizeY);
 }
