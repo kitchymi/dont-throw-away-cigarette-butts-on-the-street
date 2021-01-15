@@ -218,6 +218,7 @@ function setKeyupEventListener(listener)
 var backgroundImage;
 var titleCatImage;
 var playCatImage;
+var cigaImage;
 
 /* assets - sounds */
 var bgm;
@@ -226,10 +227,19 @@ var bgm;
 var state = 0;
 var score = 0;
 
-/* object variables */
+/* cat object variables */
 var catSizeX = 288, catSizeY = 211.2;
-var catPositionX = 48, catPositionY = 480;
+var catOriginalPositionX = 48, catOriginalPositionY = 480;
+var catPositionX = catOriginalPositionX, catPositionY = catOriginalPositionY;
 var catPositionXLimit = 1920;
+
+/* cigarette object variables */
+var cigaSizeX = 120, cigaSizeY = 48;
+var ciga0OriginalPositionX = 480, ciga1OriginalPositionX = 960, ciga2OriginalPositionX = 1440;
+var ciga0OriginalPositionY = 480, ciga1OriginalPositionY = 800, ciga2OriginalPositionY = 160;
+var ciga0PositionX, ciga1PositionX, ciga2PositionX;
+var ciga0PositionY, ciga1PositionY, ciga2PositionY;
+var cigaSpeed = 3;
 
 function setup()
 {
@@ -237,6 +247,7 @@ function setup()
 	backgroundImage = loadImage("resources/images/city.jpg");
 	titleCatImage = loadImage("resources/images/titlecat.jpg");
 	playCatImage = loadImage("resources/images/catcat.jpg");
+	cigaImage = loadImage("resources/images/cigarett.jpg");
 
 	bgm = loadSound("resources/sounds/bgm.mp3");
 	bgm.loop = true;
@@ -288,12 +299,14 @@ function draw()
 			if (inputPointerUp)
 			{
 				releaseUserInputPointer();
+				initializeCigarette();
 				bgm.play();
 				state = 1;
 			}
 			break;
 
 		case 1:
+			/* game algorithm */
 			if (getUserInputPointer())
 			{
 				if (inputPointerX < 640)
@@ -310,6 +323,11 @@ function draw()
 				}
 			}
 
+			ciga0PositionY = getCigarettePosition(ciga0PositionY, cigaSpeed);
+			ciga1PositionY = getCigarettePosition(ciga1PositionY, cigaSpeed);
+			ciga2PositionY = getCigarettePosition(ciga2PositionY, cigaSpeed);
+
+			/* rendering */
 			canvasContext.drawImage(backgroundImage, 0, 0, 1920, 960);
 
 			canvasContext.font = "96px CuteFont";
@@ -329,6 +347,10 @@ function draw()
 			canvasContext.fillText("목표 점수 100", 1440, 151);
 
 			canvasContext.drawImage(playCatImage, catPositionX, catPositionY, catSizeX, catSizeY);
+
+			canvasContext.drawImage(cigaImage, ciga0PositionX, ciga0PositionY, cigaSizeX, cigaSizeY);
+			canvasContext.drawImage(cigaImage, ciga1PositionX, ciga1PositionY, cigaSizeX, cigaSizeY);
+			canvasContext.drawImage(cigaImage, ciga2PositionX, ciga2PositionY, cigaSizeX, cigaSizeY);
 			break;
 	}
 }
@@ -354,4 +376,24 @@ function getUserInputPointer()
 function releaseUserInputPointer()
 {
 	userInputPointer = false;
+}
+
+/* object control */
+function initializeCigarette()
+{
+	ciga0PositionX = ciga0OriginalPositionX;
+	ciga1PositionX = ciga1OriginalPositionX;
+	ciga2PositionX = ciga2OriginalPositionX;
+	ciga0PositionY = ciga0OriginalPositionY;
+	ciga1PositionY = ciga1OriginalPositionY;
+	ciga2PositionY = ciga2OriginalPositionY;
+}
+
+function getCigarettePosition(position, speed)
+{
+	position += speed;
+	if (position > 960)
+		position = -cigaSizeY;
+
+	return position;
 }
