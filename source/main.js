@@ -328,8 +328,8 @@ function draw()
 
 			canvasContext.font = "bold 144px CuteFont";
 			canvasContext.fillStyle = "rgb(255, 0, 0)";
-			//canvasContext.strokeText("현재 점수 " + score, 48, 151);
-			//canvasContext.fillText("현재 점수 " + score, 48, 151);
+			canvasContext.strokeText("현재 점수 " + score, 48, 151);
+			canvasContext.fillText("현재 점수 " + score, 48, 151);
 			canvasContext.strokeText("목표 점수 100", 1440, 151);
 			canvasContext.fillText("목표 점수 100", 1440, 151);
 
