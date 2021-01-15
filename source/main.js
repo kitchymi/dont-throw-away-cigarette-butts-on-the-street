@@ -101,7 +101,9 @@ function checkWindowSizeAndUpdateCanvas()
 	if (pastScreenWidth == screenWidth && pastScreenHeight == screenHeight)
 		return;
 
-	alert(screenWidth + ", " + screenHeight);
+	alert(screen.width + ", " + screen.height + "\n" +
+		screen.availWidth + ", " + screen.availHeight + "\n" +
+		screenWidth + ", " + screenHeight);
 
 	pastScreenWidth = screenWidth;
 	pastScreenHeight = screenHeight;
@@ -113,7 +115,7 @@ function initializeCanvas(screenWidth, screenHeight)
 	var aspectRatio = screenWidth / screenHeight;
 	var baseRatio = 2;
 
-	$("meta[name=viewport]").attr("content", "width=1920, user-scalable=yes");
+	// $("meta[name=viewport]").attr("content", "width=1920, user-scalable=yes");
 
 	if (aspectRatio > baseRatio)
 	{
