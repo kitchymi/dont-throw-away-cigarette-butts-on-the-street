@@ -3,7 +3,7 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<meta name="viewport" content="width=1920, user-scalable=no" />
+		<meta name="viewport" content="width=960, height=1920, user-scalable=no" />
 		<title>길거리에 담배꽁초를 버리지 마시오</title>
 		<style> body {padding: 0; margin: 0;} canvas {vertical-align: top;} </style>
 		<style type="text/css">
@@ -11,10 +11,18 @@
 				font-family: 'CuteFont';
 				src: url('resources/fonts/cute.ttf');
 			}
+			html, body {
+				overflow-x: hidden;
+				overflow-y: hidden;
+			}
+			body {
+				position: relative;
+			}
 		</style>
 	</head>
 
 	<body onload="init();">
+		<script src="http://code.jquery.com/jquery-latest.js"></script>
 		<script id="script" src="source/main.js" type="text/javascript"></script>
 		<canvas id="canvas" width="1920" height="960"></canvas>
 	</body>
