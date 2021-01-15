@@ -326,7 +326,7 @@ function draw()
 			canvasContext.strokeText("화살표키로 움직이세요", 55, 188);
 			canvasContext.fillText("화살표키로 움직이세요", 55, 188);
 
-			canvasContext.font = "bold 144px CuteFont";
+			canvasContext.font = "144px CuteFont";
 			canvasContext.fillStyle = "rgb(255, 0, 0)";
 			canvasContext.strokeText("현재 점수 " + score, 48, 151);
 			canvasContext.fillText("현재 점수 " + score, 48, 151);
