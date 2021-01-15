@@ -103,6 +103,7 @@ function checkWindowSizeAndUpdateCanvas()
 
 	alert(screen.width + ", " + screen.height + "\n" +
 		screen.availWidth + ", " + screen.availHeight + "\n" +
+		document.body.clientWidth + ", " + document.body.clientHeight + "\n" +
 		screenWidth + ", " + screenHeight);
 
 	pastScreenWidth = screenWidth;
