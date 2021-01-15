@@ -395,7 +395,7 @@ function draw()
 
 			canvasContext.font = "132px CuteFont";
 			canvasContext.fillStyle = "rgb(255, 0, 0)";
-			canvasContext.fillText("고양이가 담배꽁초를 먹고 몸이 상합니다", 960, 508);
+			canvasContext.fillText("길거리에 담배꽁초를 버리지 말고 청소합시다", 960, 508);
 
 			canvasContext.font = "103px CuteFont";
 			canvasContext.textAlign = "right";
