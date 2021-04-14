@@ -236,6 +236,9 @@ var stageSound;
 var state = 0;
 var score = 0;
 
+/* input control variables */
+var inputArrowKey = false, isInputArrowKeyLeft = false, isSpaceKey = false;
+
 /* cat object variables */
 var catSizeX = 288, catSizeY = 211.2;
 var catOriginalPositionX = 48, catOriginalPositionY = 480;
@@ -268,14 +271,54 @@ function setup()
 	/* listeners */
 	setKeydownEventListener(function(keyCode)
 	{
+		switch (keyCode)
+		{
+			case 32: /* space key */
+				isSpaceKey = true;
+				break;
 
+			case 37: /* left arrow key */
+				inputArrowKey = true;
+				isInputArrowKeyLeft = true;
+				break;
+
+			case 39: /* right arrow key */
+				inputArrowKey = true;
+				isInputArrowKeyLeft = false;
+				break;
+
+			case 65: /* A key */
+				inputArrowKey = true;
+				isInputArrowKeyLeft = true;
+				break;
+
+			case 68: /* D key */
+				inputArrowKey = true;
+				isInputArrowKeyLeft = false;
+				break;
+		}
 	});
 	setKeyupEventListener(function(keyCode)
 	{
+		switch (keyCode)
+		{
+			case 37: /* left arrow key */
+				inputArrowKey = false;
+				break;
 
+			case 39: /* right arrow key */
+				inputArrowKey = false;
+				break;
+
+			case 65: /* A key */
+				inputArrowKey = false;
+				break;
+
+			case 68: /* D key */
+				inputArrowKey = false;
+				break;
+		}
 	});
-	/* A: 65, S: 83, D: 68, W:87 */
-	/* l: 37, d: 40, r: 39, u:38 */
 }
 
 function draw()
@@ -307,7 +350,7 @@ function draw()
 
 			canvasContext.drawImage(titleCatImage, 48, 480, catSizeX, catSizeY);
 
-			if (inputPointerUp)
+			if (inputPointerUp || isSpaceKey)
 			{
 				releaseInputPointer();
 				initializeCat();
@@ -319,20 +362,22 @@ function draw()
 
 		case 1:
 			/* game algorithm */
-			if (inputPointer)
+			if (inputPointer || inputArrowKey)
 			{
-				if (inputPointerX < 640)
+				if (inputPointerX < 640 || isInputArrowKeyLeft)
 				{
 					catPositionX -= 30;
 					if (catPositionX < 0)
 						catPositionX = 0;
 				}
-				else if (inputPointerX > 1280)
+				else if (inputPointerX > 1280 || !isInputArrowKeyLeft)
 				{
 					catPositionX += 30;
 					if (catPositionX > catPositionXLimit)
 					{
 						releaseInputPointer();
+						inputArrowKey = false;
+
 						initializeCat();
 						cigaSpeed += 2;
 						score += 20;
@@ -404,7 +449,7 @@ function draw()
 			canvasContext.fillStyle = "rgb(255, 255, 255)";
 			canvasContext.fillText("다시 하려면 클릭!", 1896, 934);
 
-			if (inputPointerUp)
+			if (inputPointerUp || isSpaceKey)
 			{
 				releaseInputPointer();
 				initializeCat();
@@ -427,6 +472,8 @@ function draw()
 			canvasContext.fillText("고양이를 도와줘서 고마워요!", 960, 761);
 			break;
 	}
+
+	isSpaceKey = false;
 }
 
 /* position, scale transform: (12 / 5) * value */
