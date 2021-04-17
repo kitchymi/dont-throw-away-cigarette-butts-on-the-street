@@ -2,8 +2,6 @@
 /*                            engine core part                            */
 /**************************************************************************/
 
-/* this is test */
-
 /* canvas */
 var canvas;
 var canvasContext;
